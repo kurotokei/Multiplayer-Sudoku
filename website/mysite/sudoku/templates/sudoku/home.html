@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Home</title>
+</head>
+
+{% load static %} 
+
+<script src="{% static 'sudoku/JS/common.js' %}"></script>
+<script src="{% static 'sudoku/JS/home.js' %}"></script>
+
+<script>
+
+
+	{% if request.user.is_authenticated %}
+		var username = "{{ request.user.username }}";
+
+		var current_game_id = {{ current_game_id }};
+		var waiting_for_match = {{ waiting_for_match }};
+
+	{% else %}
+		var username = null;
+	{% endif %}
+
+</script>
+
+<body onload="init()">
+
+	{% if request.user.is_authenticated %}
+		<p>{{ request.user.username }}</p>
+		<a href="{% url 'logout' %}">Logout</a>
+	{% else %}
+		<a href="{% url 'login' %}">Login</a>
+		<a href="{% url 'signup' %}">Signup</a>
+	{% endif %}
+
+	<br><br>
+
+	<!-- #################################### -->
+
+<div id="logged_out__div">
+	<p>you need to login to play</p>
+</div>
+
+<div id="create_game__div">
+
+	<h3>Game type:</h3>
+
+	<input type="radio" id="game_type_solo" name="game_type_select" 
+			value="GAME_TYPE_SOLO" checked>
+	<label for="game_type_solo">solo</label><br>
+
+	<input type="radio" id="game_type_multiplayer" name="game_type_select" 
+			value="GAME_TYPE_MULTIPLAYER">
+	<label for="game_type_multiplayer">multiplayer</label><br>
+
+	<input type="radio" id="game_type_with_friend" name="game_type_select" 
+			value="GAME_TYPE_WITH_FRIEND">
+	<label for="game_type_with_friend">with a friend</label><br>
+
+
+	<h3>Time limit</h3>
+	
+	<input type="radio" id="game_duration_3min" name="game_duration_select" 
+			value="3" checked>
+	<label for="game_duration_3min">3 min</label><br>
+
+	<input type="radio" id="game_duration_5min" name="game_duration_select" 
+			value="5" >
+	<label for="game_duration_5min">5 min</label><br>
+
+	<input type="radio" id="game_duration_10min" name="game_duration_select" 
+			value="10" >
+	<label for="game_duration_10min">10 min</label><br>
+
+	<input type="radio" id="game_duration_15min" name="game_duration_select" 
+			value="15" >
+	<label for="game_duration_15min">15 min</label><br>
+
+	<input type="radio" id="game_duration_30min" name="game_duration_select" 
+			value="30" >
+	<label for="game_duration_30min">30 min</label><br>
+
+
+	<h3>Difficulty</h3>
+	
+	<input type="radio" id="game_level_easy" name="game_level_select" 
+			value="0" checked>
+	<label for="game_level_easy">easy</label><br>
+
+	<input type="radio" id="game_level_medium" name="game_level_select" 
+			value="1" >
+	<label for="game_level_medium">medium</label><br>
+
+	<input type="radio" id="game_level_hard" name="game_level_select" 
+			value="2" >
+	<label for="game_level_hard">hard</label><br>
+
+
+
+	<br><br>
+	<button onclick="create_game()">create game</button>
+
+	<p id="create_game_error"></p>
+
+</div> <!-- create_game__div -->
+
+<div id="wait_for_match__div">
+	<p>looking for a match ...</p>
+	<button onclick="cancel_match_search()">cancel</button>
+</div>
+
+<div id="go_to_game__div">
+	<span>you are already playing a game</span>
+	<a id="current_game_link" href="">here</a>
+</div>
+
+
+</body>
+
+</html>
+

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Game</title>
+</head>
+
+{% load static %}
+
+<script src="{% static 'sudoku/JS/common.js' %}"></script>
+<script src="{% static 'sudoku/JS/game.js' %}"></script>
+<script>
+
+	var username = "{{ request.user.username }}";
+
+	var in_game_id = {{ in_game_id }};
+
+	var in_game_origin_code;
+	if( in_game_id == 1 )
+		in_game_origin_code = GRID_VALUE_ORIGIN_PLAYER_1;
+	else
+		in_game_origin_code = GRID_VALUE_ORIGIN_PLAYER_2;
+	
+
+	var game = {{ game | safe }};
+	var player_1 = {{ player_1 | safe }};
+	var player_2 = {{ player_2 | safe }};
+
+</script>
+
+<style>
+	* {
+		font-size:150%;
+	}
+
+	canvas#can {
+		/*border:2px solid;*/
+		width: 100%;
+		height: 100%;
+		aspect-ratio : 1 / 1;
+	}
+
+	div#grid_buttons_div {
+		font-size: 4vw;
+	}
+
+	.grid_button_selected {
+		background: red;
+	}
+
+
+</style>
+
+<body onload="init()">
+
+<a href="{% url 'home' %}">Home</a>
+
+
+<p id="player_1_info"></p>
+<p id="player_2_info"></p>
+<p id="game_result"></p>
+<p id="timer"></p>
+
+<button id="show_solution_button" onclick="show_solution_button_function()">Show solution</button>
+
+<br>
+
+<button id="start_game_button" onclick="notify_ready_to_start()">start game</button>
+
+<button id="end_game_button" onclick="end_game()">end game</button>
+
+
+<br>
+
+<br>
+
+<div>
+
+
+<!--
+	the additionals divs are used to force the canvas to be a box see
+	https://stackoverflow.com/questions/19068070/how-to-style-a-div-to-be-a-responsive-square
+-->
+<div style="height:0;width:45%;">
+	<div style="float:left;">
+		<canvas id="can" width="1000" height="1000"></canvas>
+	</div>
+</div>
+
+
+<div id="grid_buttons_div" style="display:inline-block;">
+
+	<button id="grid_button_0" onclick="set_selected_grid_button(0)" class="grid_button_selected" style="width:100%;box-sizing: border-box;">erase</button>
+	<br>
+
+	<button id="grid_button_1" onclick="set_selected_grid_button(1)">1</button>
+	<button id="grid_button_2" onclick="set_selected_grid_button(2)">2</button>
+	<button id="grid_button_3" onclick="set_selected_grid_button(3)">3</button>
+	<br>
+
+	<button id="grid_button_4" onclick="set_selected_grid_button(4)">4</button>
+	<button id="grid_button_5" onclick="set_selected_grid_button(5)">5</button>
+	<button id="grid_button_6" onclick="set_selected_grid_button(6)">6</button>
+	<br>
+
+	<button id="grid_button_7" onclick="set_selected_grid_button(7)">7</button>
+	<button id="grid_button_8" onclick="set_selected_grid_button(8)">8</button>
+	<button id="grid_button_9" onclick="set_selected_grid_button(9)">9</button>
+	<br>
+
+</div> <!-- grid_buttons_div -->
+
+</div> <!-- canvas and buttons -->
+
+<br>
+
+</body>
+</html>
+
